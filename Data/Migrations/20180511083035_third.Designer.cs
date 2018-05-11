@@ -11,9 +11,10 @@ using System;
 namespace Data.Migrations
 {
     [DbContext(typeof(TravelAgentContext))]
-    partial class TravelAgentContextModelSnapshot : ModelSnapshot
+    [Migration("20180511083035_third")]
+    partial class third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,23 +37,12 @@ namespace Data.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
-                {
-                    b.Property<int>("CustomerId");
-
-                    b.Property<int>("TravelId");
-
-                    b.HasKey("CustomerId", "TravelId");
-
-                    b.HasIndex("TravelId");
-
-                    b.ToTable("Participants");
-                });
-
             modelBuilder.Entity("Domain.Travel", b =>
                 {
                     b.Property<int>("TravelId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CustomerId");
 
                     b.Property<DateTime>("Date");
 
@@ -62,20 +52,16 @@ namespace Data.Migrations
 
                     b.HasKey("TravelId");
 
-                    b.ToTable("Travels");
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Travel");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
+            modelBuilder.Entity("Domain.Travel", b =>
                 {
-                    b.HasOne("Domain.Customer", "Customer")
-                        .WithMany("Participants")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domain.Travel", "Travel")
-                        .WithMany("Participants")
-                        .HasForeignKey("TravelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Domain.Customer")
+                        .WithMany("Travels")
+                        .HasForeignKey("CustomerId");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,7 +7,8 @@ namespace Data
     public class TravelAgentContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
-
+        public DbSet<Travel> Travels { get; set; }
+        public DbSet<Registration> Participants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,8 +17,13 @@ namespace Data
 
 
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Registration>()
+                .HasKey(x => new { x.CustomerId, x.TravelId });
+        }
     }
+
 
     class ProgramData
     {
