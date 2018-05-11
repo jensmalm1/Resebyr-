@@ -4,5 +4,6 @@ namespace Resebyrå
 {
     public class Class1
     {
+
     }
 }
