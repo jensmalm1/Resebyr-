@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Data;
 using Domain;
@@ -204,15 +205,18 @@ namespace TravelAgency
             
         }
 
-        static void CalculateDebtOfCustomer(int customerId)
-        {
-            Customer customer;
-            using (var context = new TravelAgencyContext())
-            {
-                customer = context.Customers.First(x => x.CustomerId == customerId);
-                context.
-            }
-        }
+        //static void CalculateDebtOfCustomer(int customerId)
+        //{
+        //    Customer customer;
+        //    var regList=new List<Registration> ();
+        //    using (var context = new TravelAgencyContext())
+        //    {
+        //        customer = context.Customers.First(x => x.CustomerId == customerId);
+        //        regList=context.Registrations.Include(x => x.Customer).Where(x => x.CustomerId == customerId).ToList();
+        //        regList.ForEach(x =>x.IsPayed ? x.Customer.TotalDebt = x.Customer.TotalDebt+x.Travel.Price:x.Customer.TotalDebt = x.Customer.TotalDebt);
+                
+        //    }
+        //}
 
 
 
