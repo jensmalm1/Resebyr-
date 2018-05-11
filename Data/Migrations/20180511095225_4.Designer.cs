@@ -11,8 +11,8 @@ using System;
 namespace Data.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20180511090923_participant")]
-    partial class participant
+    [Migration("20180511095225_4")]
+    partial class _4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,11 +37,13 @@ namespace Data.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
+            modelBuilder.Entity("Domain.Registration", b =>
                 {
                     b.Property<int>("CustomerId");
 
                     b.Property<int>("TravelId");
+
+                    b.Property<bool>("IsPayed");
 
                     b.HasKey("CustomerId", "TravelId");
 
@@ -66,7 +68,7 @@ namespace Data.Migrations
                     b.ToTable("Travels");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
+            modelBuilder.Entity("Domain.Registration", b =>
                 {
                     b.HasOne("Domain.Customer", "Customer")
                         .WithMany("Participants")

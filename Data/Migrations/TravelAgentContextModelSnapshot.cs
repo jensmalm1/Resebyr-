@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace Data.Migrations
 {
-    [DbContext(typeof(TravelAgentContext))]
+    [DbContext(typeof(TravelAgencyContext))]
     partial class TravelAgentContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -36,11 +34,13 @@ namespace Data.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
+            modelBuilder.Entity("Domain.Registration", b =>
                 {
                     b.Property<int>("CustomerId");
 
                     b.Property<int>("TravelId");
+
+                    b.Property<bool>("IsPayed");
 
                     b.HasKey("CustomerId", "TravelId");
 
@@ -65,7 +65,7 @@ namespace Data.Migrations
                     b.ToTable("Travels");
                 });
 
-            modelBuilder.Entity("Domain.Participant", b =>
+            modelBuilder.Entity("Domain.Registration", b =>
                 {
                     b.HasOne("Domain.Customer", "Customer")
                         .WithMany("Participants")

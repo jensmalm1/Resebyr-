@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgent", "Resebyrå\TravelAgent.csproj", "{AABF7317-4EF1-4B63-9622-A7FCFA4661A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency", "Resebyrå\TravelAgency.csproj", "{AABF7317-4EF1-4B63-9622-A7FCFA4661A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{9B15AD2D-4595-43F4-BAD5-DC0C9343F0BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{9B15AD2D-4595-43F4-BAD5-DC0C9343F0BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{4031C244-37F8-471A-918C-DE2EBCEEAF1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{4031C244-37F8-471A-918C-DE2EBCEEAF1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-    public class TravelAgentContext : DbContext
+    public class TravelAgencyContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Travel> Travels { get; set; }
-        public DbSet<Registration> Participants { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

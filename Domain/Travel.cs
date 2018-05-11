@@ -6,7 +6,7 @@ namespace Domain
 {
     public class Travel
     {
-        public List<Registration> Participants { get; set; }
+        public List<Registration> Registrations { get; set; }
         public int TravelId { get; set; }
         public string Destination { get; set; }
         public DateTime Date { get; set; }

@@ -10,7 +10,7 @@ using System;
 
 namespace Data.Migrations
 {
-    [DbContext(typeof(TravelAgentContext))]
+    [DbContext(typeof(TravelAgencyContext))]
     [Migration("20180511083035_third")]
     partial class third
     {

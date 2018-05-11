@@ -5,7 +5,7 @@ namespace Domain
 
     public class Customer
     {
-        public List<Registration> Participants { get; set; }
+        public List<Registration> Registrations { get; set; }
 
         public int CustomerId { get; set; }
         public string Name { get; set; }
