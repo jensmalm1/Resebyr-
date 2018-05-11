@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Data
 {
     public class TravelAgencyContext : DbContext
@@ -12,11 +13,12 @@ namespace Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(
-                "Server = (localdb)\\mssqllocaldb; Database = TravelAgency; Trusted_Connection = True; ");
+            optionsBuilder.UseSqlite(@"Filename=TravelAgency.db");
 
 
         }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Registration>()
