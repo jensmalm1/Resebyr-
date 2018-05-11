@@ -12,7 +12,7 @@ namespace Data.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
     [Migration("20180511090923_participant")]
-    partial class registration
+    partial class participant
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

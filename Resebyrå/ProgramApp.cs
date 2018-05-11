@@ -18,7 +18,7 @@ namespace TravelAgency
 
      
                 Console.Clear();
-            //DisplayCustomersAndTravels();
+            DisplayCustomersAndTravels();
             Console.WriteLine("Choose task:\n\n1. Add new customer\n2. Add new trip \n3. Registrer trip to existing customer \n4. Show Customer by Customer-ID \n5. Show trips by TripID\n");
                 int i = Int32.Parse(Console.ReadLine());
             switch (i)

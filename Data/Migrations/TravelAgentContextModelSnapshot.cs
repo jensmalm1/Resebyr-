@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace Data.Migrations
@@ -17,7 +15,8 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domain.Customer", b =>
                 {
@@ -47,7 +46,7 @@ namespace Data.Migrations
 
                     b.HasIndex("TravelId");
 
-                    b.ToTable("Registrations");
+                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("Domain.Travel", b =>
@@ -69,12 +68,12 @@ namespace Data.Migrations
             modelBuilder.Entity("Domain.Registration", b =>
                 {
                     b.HasOne("Domain.Customer", "Customer")
-                        .WithMany("Registrations")
+                        .WithMany("Participants")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.Travel", "Travel")
-                        .WithMany("Registrations")
+                        .WithMany("Participants")
                         .HasForeignKey("TravelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
