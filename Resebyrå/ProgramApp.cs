@@ -12,11 +12,10 @@ namespace TravelAgency
     {
         static void ChooseTask()
         {
-     
 
-
-         
-
+            bool keepMenu=true;
+            while (keepMenu)
+            {
 
                 DisplayCustomersAndTravels();
 
@@ -37,11 +36,13 @@ namespace TravelAgency
                     DisplayCustomer(GetCustomerIdFromUser());
                     break;
                 case 5:
-                 
                     break;
-
+                case 'q':
+                    keepMenu = false;
+                    break;
             }
 
+            }
             
             
         }
@@ -135,11 +136,11 @@ namespace TravelAgency
 
                 Console.WriteLine($"Name: {customer.Name} \n" +
                                   $"Debt: {customer.TotalDebt}");
-                Console.WriteLine($" Are {customer.Name} able to registrer a new trip?");
+                
                 if(customer.NumberOfDebts<3)
-                    Console.WriteLine($"Yes, only {customer.NumberOfDebts} debts");
+                    Console.WriteLine($"{customer.Name} has only {customer.NumberOfDebts} debts");
                 else
-                Console.WriteLine($"No, 3 debts registrered already");
+                Console.WriteLine($"{customer.Name} has 3 debts registrered and cannot registrer for another trip");
 
                // customer.Registations.Select(x => x.Travel) ForEach(x => Console.WriteLine($"{x.CustomerId,-20}{x.Name,-20}"));
 
@@ -170,7 +171,7 @@ namespace TravelAgency
             
             if (customer.NumberOfDebts >= 3)
             {
-                Console.WriteLine($"{customer.Name} has too many debts...");
+                
                 return true;
             }
 
@@ -261,7 +262,26 @@ namespace TravelAgency
                 }
 
             }
+            else
+            {
+                Console.WriteLine($"{customer.Name} has too many debts...");
+                {
 
+                    if (AskIfCustomerWantsToPay())
+                    {
+                        Console.WriteLine(
+                            $"{customer.Name} has to pay debts of {customer.TotalDebt} and travel price of {travel.Price} to a total of {customer.TotalDebt + travel.Price} ");
+                        using (var context = new TravelAgencyContext())
+                        {
+                        context.Customers.First(x => x.CustomerId == customerId).TotalDebt = 0;
+                        context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts = 0;
+                        context.SaveChanges();
+                        }
+                    }
+                    else
+                        Console.WriteLine("Unable to registrer trip until debts are payed...");
+                }
+            }
         }
 
 
