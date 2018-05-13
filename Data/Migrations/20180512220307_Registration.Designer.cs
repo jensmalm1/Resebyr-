@@ -11,9 +11,10 @@ using System;
 namespace Data.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    partial class TravelAgentContextModelSnapshot : ModelSnapshot
+    [Migration("20180512220307_Registration")]
+    partial class Registration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

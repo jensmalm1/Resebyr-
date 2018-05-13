@@ -15,7 +15,6 @@ namespace Data
             optionsBuilder.UseSqlServer(
                 "Server = (localdb)\\mssqllocaldb; Database = TravelAgency; Trusted_Connection = True; ");
 
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
