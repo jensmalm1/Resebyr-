@@ -7,7 +7,7 @@ using Domain;
 
 namespace TravelAgency
 {
-    class App
+    public class App
     {
         public void ChooseTask()
         {
@@ -204,7 +204,7 @@ namespace TravelAgency
 
 
 
-        private void RegistrerCustomerForTravel(int customerId, int travelId)
+       public void RegistrerCustomerForTravel(int customerId, int travelId)
         {
             double interestRate = 1.05;
             double interest=0;
@@ -245,7 +245,7 @@ namespace TravelAgency
                     interest=customer.LastDebtAmount * Math.Pow(customer.LastDebtAmount * interestRate, timeSpan);
                 }
 
-
+                
 
                 using (var context = new TravelAgencyContext())
                 {
@@ -261,8 +261,6 @@ namespace TravelAgency
                         context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts = 0;
                         context.SaveChanges();
                     }
-
-
                 }
 
             }

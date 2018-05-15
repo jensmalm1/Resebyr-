@@ -6,8 +6,6 @@ namespace TravelAgency
     {
 
 
-
-
         static void Main(string[] args)
         {
             new App().ChooseTask();
