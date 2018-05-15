@@ -214,42 +214,53 @@ namespace TravelAgency
             using (var context = new TravelAgencyContext())
             {
                 customer = context.Customers.First(x => x.CustomerId == customerId);
+          
                 travel = context.Travels.First(x => x.TravelId == travelId);
 
             }
+
+            
 
             if (!CheckIfCustomerHasTooManyDebts(customer))
             {
                 bool payed;
                 if (AskIfCustomerWantsToPay())
                 {
-                    Console.WriteLine(
-                        $"{customer.Name} has to pay debts of {customer.TotalDebt} and {interest} as interest and travel price of {travel.Price} to a total of {customer.TotalDebt + travel.Price + interest} ");
+                    
                     payed = true;
+
+
+                    var registration = new Registration
+                    {
+                        Customer = customer,
+                        Travel = travel,
+                        IsPayed = payed
+                    };
+
+                    if (CheckIfCustomerHasDebt(customer))
+                    {
+                        using (var context = new TravelAgencyContext())
+                        {
+                            customer.LastDebtDate = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Date;
+                            customer.LastDebtAmount = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Price;
+                            context.SaveChanges();
+                        }
+
+
+                        double timeSpan = (registration.Travel.Date-customer.LastDebtDate).Days;
+                        interest = customer.LastDebtAmount * Math.Pow(interestRate, timeSpan);
+                        Console.WriteLine(
+                            $"{customer.Name} has to pay debts of {customer.TotalDebt} and {interest} as interest and travel price of {travel.Price} to a total of {customer.TotalDebt + travel.Price + interest} ");
+                    }
                 }
                 else
                     payed = false;
-
-
-                var registration = new Registration
-                {
-                    Customer = customer,
-                    Travel = travel,
-                    IsPayed = payed
-                };
-
-               
-                if (CheckIfCustomerHasDebt(customer))
-                {
-                    int timeSpan = (customer.LastDebtDate - registration.Travel.Date).Days;
-                    interest=customer.LastDebtAmount * Math.Pow(customer.LastDebtAmount * interestRate, timeSpan);
-                }
 
                 
 
                 using (var context = new TravelAgencyContext())
                 {
-                    if (!registration.IsPayed)
+                    if (!payed)
                     {
                         context.Customers.First(x => x.CustomerId == customerId).TotalDebt += +travel.Price;
                         context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts += 1;
@@ -262,7 +273,6 @@ namespace TravelAgency
                         context.SaveChanges();
                     }
                 }
-
             }
             else
             {

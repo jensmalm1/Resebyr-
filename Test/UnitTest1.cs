@@ -43,11 +43,6 @@ namespace Test
             //    TravelId = 9
             //};
 
-
-
-
-
-
             //var registration2 = new Registration
             //{
             //    CustomerId = 100,
