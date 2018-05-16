@@ -15,10 +15,8 @@ namespace TravelAgency
             bool keepMenu = true;
             while (keepMenu)
             {
-
-                
-
-                Console.WriteLine("Choose task:\n\n1. Add new customer\n2. Add new trip \n3. Registrer trip to existing customer \n4. Show Customer by Customer-ID \n9. Quit");
+                //todo ta bort magic numbers as cases.
+                Console.WriteLine("Choose task:\n\n1. Add new customer\n2. Add new trip \n3. Registrer trip to existing customer \n4. Show Customer by Customer-ID \n5. Go to main menu \n6. Quit");
                 int i = Int32.Parse(Console.ReadLine());
                 switch (i)
                 {
@@ -29,7 +27,7 @@ namespace TravelAgency
                         AddNewTravel(GetTravelFromUser());
                         break;
                     case 3:
-                        RegistrerCustomerForTravel(GetRegistrationCustomerIDFromUser(), GetRegistrationTravelIDFromUser());
+                        RegistrerTrip();
                         break;
                     case 4:
                         Console.Clear();
@@ -37,17 +35,40 @@ namespace TravelAgency
                         DisplayCustomer(GetCustomerIdFromUser());
                         break;
                     case 5:
+                        ChooseTask();
                         break;
-                    case 9:
+                    case 6:
                         Console.WriteLine("Bye");
-                        keepMenu = false;
+                        Environment.Exit(0);
                         break;
-
-                        
                 }
-               
             }
+        }
 
+
+        private void RegistrerTrip()
+        {
+            var registrerer = new Registrerer(GetCustomerIdFromUser(), GetRegistrationTravelIDFromUser());
+            if (registrerer.AskIfCustomerWantsToPay())
+            {
+                Console.WriteLine($"Your have to pay a total of {registrerer.CalculateCost()}");
+
+            }
+            else
+            {
+                if(registrerer.CheckIfCustomerHasTooManyDebts())
+                {
+
+                    Console.WriteLine($"You already have too many debts and have to pay a total of {registrerer.CalculateCost()}");
+                    registrerer.CustomerPayed();
+                }
+                else
+                {
+                    registrerer.CustomerAddedNewDebt();
+
+                }
+
+            }
 
         }
 
@@ -146,9 +167,6 @@ namespace TravelAgency
                 else
                     Console.WriteLine($"{customer.Name} has 3 debts registrered and cannot registrer for another trip");
 
-                // customer.Registations.Select(x => x.Travel) ForEach(x => Console.WriteLine($"{x.CustomerId,-20}{x.Name,-20}"));
-
-
             }
 
         }
@@ -168,132 +186,7 @@ namespace TravelAgency
         }
 
 
-        private bool CheckIfCustomerHasTooManyDebts(Customer customer)
-        {
 
-            if (customer.NumberOfDebts >= 3)
-            {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool CheckIfCustomerHasDebt(Customer customer)
-        {
-            if (customer.NumberOfDebts > 0)
-            {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool AskIfCustomerWantsToPay()
-        {
-            bool payed;
-            Console.WriteLine("Pay now? (yes/no)");
-            if (Console.ReadLine() == "yes")
-                payed = true;
-            else
-                payed = false;
-            return payed;
-        }
-
-
-
-       public void RegistrerCustomerForTravel(int customerId, int travelId)
-        {
-            double interestRate = 1.05;
-            double interest=0;
-            Customer customer;
-            Travel travel;
-
-            using (var context = new TravelAgencyContext())
-            {
-                customer = context.Customers.First(x => x.CustomerId == customerId);
-          
-                travel = context.Travels.First(x => x.TravelId == travelId);
-
-            }
-
-            
-
-            if (!CheckIfCustomerHasTooManyDebts(customer))
-            {
-                bool payed;
-                if (AskIfCustomerWantsToPay())
-                {
-                    
-                    payed = true;
-
-
-                    var registration = new Registration
-                    {
-                        Customer = customer,
-                        Travel = travel,
-                        IsPayed = payed
-                    };
-
-                    if (CheckIfCustomerHasDebt(customer))
-                    {
-                        using (var context = new TravelAgencyContext())
-                        {
-                            customer.LastDebtDate = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Date;
-                            customer.LastDebtAmount = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Price;
-                            context.SaveChanges();
-                        }
-
-
-                        double timeSpan = (registration.Travel.Date-customer.LastDebtDate).Days;
-                        interest = customer.LastDebtAmount * Math.Pow(interestRate, timeSpan);
-                        Console.WriteLine(
-                            $"{customer.Name} has to pay debts of {customer.TotalDebt} and {interest} as interest and travel price of {travel.Price} to a total of {customer.TotalDebt + travel.Price + interest} ");
-                    }
-                }
-                else
-                    payed = false;
-
-                
-
-                using (var context = new TravelAgencyContext())
-                {
-                    if (!payed)
-                    {
-                        context.Customers.First(x => x.CustomerId == customerId).TotalDebt += +travel.Price;
-                        context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts += 1;
-                        context.SaveChanges();
-                    }
-                    else
-                    {
-                        context.Customers.First(x => x.CustomerId == customerId).TotalDebt = 0;
-                        context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts = 0;
-                        context.SaveChanges();
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine($"{customer.Name} has too many debts...");
-                {
-
-                    if (AskIfCustomerWantsToPay())
-                    {
-                        Console.WriteLine(
-                            $"{customer.Name} has to pay debts of {customer.TotalDebt} and {interest} as interest and travel price of {travel.Price} to a total of {customer.TotalDebt + travel.Price+interest} ");
-                        using (var context = new TravelAgencyContext())
-                        {
-                            context.Customers.First(x => x.CustomerId == customerId).TotalDebt = 0;
-                            context.Customers.First(x => x.CustomerId == customerId).NumberOfDebts = 0;
-                            context.SaveChanges();
-                        }
-                    }
-                    else
-                        Console.WriteLine("Unable to registrer trip until debts are payed...");
-                }
-            }
-        }
+       
     }
 }
