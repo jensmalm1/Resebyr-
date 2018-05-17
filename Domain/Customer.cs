@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-
     public class Customer
     {
         public List<Registration> Registrations { get; set; }
@@ -14,8 +13,4 @@ namespace Domain
         public int NumberOfDebts { get; set; }
         public double TotalDebt { get; set; }
     }
-
-
 }
-   
-

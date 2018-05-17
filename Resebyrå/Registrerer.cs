@@ -9,13 +9,18 @@ using Data.Migrations;
 
 namespace TravelAgency
 {
+    //todo: Create DbMAnager.cs to enable tests 
 
     public class Registrerer
     {
         const double interestRate = 1.05;
-        double interest = 0;
+        double interest;
         Customer customer;
         Travel travel;
+
+        public Registrerer()
+        {
+        }
 
         public Registrerer(int customerId, int travelId)
         {
@@ -26,6 +31,11 @@ namespace TravelAgency
             }
         }
 
+        public Registrerer(Customer testCustomer, Travel testTravel)
+        {
+            customer = testCustomer;
+            travel = testTravel;
+        }
 
 
         public bool CheckIfCustomerHasTooManyDebts()
@@ -34,6 +44,7 @@ namespace TravelAgency
             {
                 return true;
             }
+
             return false;
         }
 
@@ -43,6 +54,7 @@ namespace TravelAgency
             {
                 return true;
             }
+
             return false;
         }
 
@@ -82,8 +94,9 @@ namespace TravelAgency
                 customer.LastDebtAmount = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Price;
                 context.SaveChanges();
             }
+
             double timeSpan = (travel.Date - customer.LastDebtDate).Days;
-            interest = customer.LastDebtAmount * Math.Pow(interestRate, timeSpan)-customer.LastDebtAmount;
+            interest = customer.LastDebtAmount * Math.Pow(interestRate, timeSpan) - customer.LastDebtAmount;
 
             return interest;
         }
@@ -103,7 +116,6 @@ namespace TravelAgency
 
         public void CustomerPayed()
         {
-            
             using (var context = new TravelAgencyContext())
             {
                 context.Customers.First(x => x.CustomerId == customer.CustomerId).TotalDebt = 0;
@@ -117,19 +129,25 @@ namespace TravelAgency
         {
             using (var context = new TravelAgencyContext())
             {
-
                 {
                     context.Customers.First(x => x.CustomerId == customer.CustomerId).TotalDebt += +travel.Price;
                     context.Customers.First(x => x.CustomerId == customer.CustomerId).NumberOfDebts += 1;
-                    
-                    
+
                     customer.LastDebtDate = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Date;
                     customer.LastDebtAmount = context.Travels.OrderBy(x => x.Date).ToList().FirstOrDefault().Price;
 
                     context.SaveChanges();
                 }
             }
+        }
 
+        public List<Travel> GetTravelList()
+        {
+            using (var context = new TravelAgencyContext())
+            {
+                var travels = context.Travels.ToList();
+                return travels;
+            }
         }
     }
 }

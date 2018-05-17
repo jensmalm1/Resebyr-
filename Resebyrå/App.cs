@@ -16,7 +16,8 @@ namespace TravelAgency
             while (keepMenu)
             {
                 //todo ta bort magic numbers as cases.
-                Console.WriteLine("Choose task:\n\n1. Add new customer\n2. Add new trip \n3. Registrer trip to existing customer \n4. Show Customer by Customer-ID \n5. Go to main menu \n6. Quit");
+                Console.WriteLine(
+                    "Choose task:\n\n1. Add new customer\n2. Add new trip \n3. Registrer trip to existing customer \n4. Show Customer by Customer-ID \n5. Go to main menu \n6. Quit");
                 int i = Int32.Parse(Console.ReadLine());
                 switch (i)
                 {
@@ -52,24 +53,20 @@ namespace TravelAgency
             if (registrerer.AskIfCustomerWantsToPay())
             {
                 Console.WriteLine($"Your have to pay a total of {registrerer.CalculateCost()}");
-
             }
             else
             {
-                if(registrerer.CheckIfCustomerHasTooManyDebts())
+                if (registrerer.CheckIfCustomerHasTooManyDebts())
                 {
-
-                    Console.WriteLine($"You already have too many debts and have to pay a total of {registrerer.CalculateCost()}");
+                    Console.WriteLine(
+                        $"You already have too many debts and have to pay a total of {registrerer.CalculateCost()}");
                     registrerer.CustomerPayed();
                 }
                 else
                 {
                     registrerer.CustomerAddedNewDebt();
-
                 }
-
             }
-
         }
 
         private Customer GetCustomerFromUser()
@@ -92,7 +89,6 @@ namespace TravelAgency
 
         private void AddNewCustomer(Customer customer)
         {
-
             using (var context = new TravelAgencyContext())
             {
                 context.Customers.Add(customer);
@@ -102,8 +98,6 @@ namespace TravelAgency
 
         private Travel GetTravelFromUser()
         {
-
-
             Console.WriteLine("Enter destination");
             string destination = Console.ReadLine();
             Console.WriteLine("Enter date (yyyy-mm-dd hh:mm");
@@ -117,12 +111,10 @@ namespace TravelAgency
             travel.Price = price;
 
             return travel;
-
         }
 
         private void AddNewTravel(Travel travel)
         {
-
             using (var context = new TravelAgencyContext())
             {
                 context.Travels.Add(travel);
@@ -135,28 +127,22 @@ namespace TravelAgency
             using (var context = new TravelAgencyContext())
             {
                 Console.WriteLine($"{"Customer ID:",-20}{"Customer Name:",-20}");
-                context.
-                    Customers.
-                    ToList().
-                    ForEach(x => Console.WriteLine($"{x.CustomerId,-20}{x.Name,-20}"));
+                context.Customers.ToList().ForEach(x => Console.WriteLine($"{x.CustomerId,-20}{x.Name,-20}"));
                 Console.WriteLine();
 
 
                 Console.WriteLine($"{"Travel ID:",-20}{"Travel Destination:",-30}{"Date:",-20}{"Price:",-20}");
-                context.
-                    Travels.
-                    ToList().
-                    ForEach(x => Console.WriteLine($"{x.TravelId,-20}{x.Destination,-30}{$"{x.Date.Year}-{x.Date.Month}",-20}{x.Price,-20}"));
+                context.Travels.ToList().ForEach(x =>
+                    Console.WriteLine(
+                        $"{x.TravelId,-20}{x.Destination,-30}{$"{x.Date.Year}-{x.Date.Month}",-20}{x.Price,-20}"));
                 Console.WriteLine();
             }
         }
 
         private void DisplayCustomer(int customerId)
         {
-
             using (var context = new TravelAgencyContext())
             {
-
                 var customer = context.Customers.First(x => x.CustomerId == customerId);
 
                 Console.WriteLine($"Name: {customer.Name} \n" +
@@ -166,27 +152,14 @@ namespace TravelAgency
                     Console.WriteLine($"{customer.Name} has only {customer.NumberOfDebts} debts");
                 else
                     Console.WriteLine($"{customer.Name} has 3 debts registrered and cannot registrer for another trip");
-
             }
-
         }
 
         private int GetRegistrationTravelIDFromUser()
         {
-
             Console.WriteLine("Enter travelId");
             return Int32.Parse(Console.ReadLine());
         }
 
-        private int GetRegistrationCustomerIDFromUser()
-        {
-
-            Console.WriteLine("Enter customerId");
-            return Int32.Parse(Console.ReadLine());
-        }
-
-
-
-       
     }
 }
